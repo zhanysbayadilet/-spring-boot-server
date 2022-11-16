@@ -3,13 +3,18 @@ package com.bezkoder.springjwt.controllers;
 import com.bezkoder.springjwt.dto.CategoryDTO;
 import com.bezkoder.springjwt.models.Category;
 import com.bezkoder.springjwt.security.services.CategoryService;
+import com.bezkoder.springjwt.util.NotCreatedException;
+import com.bezkoder.springjwt.util.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +41,25 @@ public class CategoryController {
                 .collect(Collectors.toList());
     }
 
+    @PostMapping()
+    public CategoryDTO create(@RequestBody @Valid CategoryDTO categoryDTO,
+                          BindingResult bindingResult) {
+        check(bindingResult);
+        categoryService.save(convertToCategory(categoryDTO));
+        return categoryDTO;
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<CategoryDTO> delete(@PathVariable("id") int id){
+        if (categoryService.findOne(id) == null){
+            throw new NotFoundException();
+        }
+        categoryService.delete(id);
+        return categoryService.findAll().stream().map(this::convertToCategoryDTO)
+                .collect(Collectors.toList());
+    }
+
     //convertTo
     public Category convertToCategory(CategoryDTO categoryDTO) {
         return modelMapper.map(categoryDTO, Category.class);
@@ -43,6 +67,21 @@ public class CategoryController {
 
     public CategoryDTO convertToCategoryDTO(Category category) {
         return modelMapper.map(category, CategoryDTO.class);
+    }
+
+    public void check(BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            StringBuilder errorMsg = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors ){
+                errorMsg.append(error.getField()).append(" - ")
+                        .append(error.getDefaultMessage())
+                        .append(";");
+            }
+            throw new NotCreatedException(errorMsg.toString());
+        }else {
+            ResponseEntity.ok(HttpStatus.OK);
+        }
     }
 
 }
