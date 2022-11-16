@@ -2,6 +2,7 @@ package com.bezkoder.springjwt.security.services;
 
 import com.bezkoder.springjwt.models.Category;
 import com.bezkoder.springjwt.repository.CategoryRepository;
+import com.bezkoder.springjwt.util.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,17 @@ public class CategoryService {
     }
 
     public Category findOne(int id) {
-        Optional<Category> foundTournament = categoryRepository.findById(id);
-        return foundTournament.orElse(null);
+        Optional<Category> foundCategory = categoryRepository.findById(id);
+        return foundCategory.orElseThrow(NotFoundException::new);
+    }
+
+    @Transactional
+    public void delete(int id) {
+        categoryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void save(Category category) {
+        categoryRepository.save(category);
     }
 }
