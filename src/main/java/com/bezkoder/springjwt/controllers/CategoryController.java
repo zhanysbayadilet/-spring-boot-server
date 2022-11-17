@@ -3,6 +3,7 @@ package com.bezkoder.springjwt.controllers;
 import com.bezkoder.springjwt.dto.CategoryDTO;
 import com.bezkoder.springjwt.models.Category;
 import com.bezkoder.springjwt.security.services.CategoryService;
+import com.bezkoder.springjwt.util.CheckBindingResult;
 import com.bezkoder.springjwt.util.NotCreatedException;
 import com.bezkoder.springjwt.util.NotFoundException;
 import org.modelmapper.ModelMapper;
@@ -24,8 +25,8 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final CategoryService categoryService;
-
     private final ModelMapper modelMapper;
+    private CheckBindingResult checkBindingResult;
 
     @Autowired
     public CategoryController(CategoryService categoryService, ModelMapper modelMapper) {
@@ -35,16 +36,22 @@ public class CategoryController {
 
     @GetMapping("/all")
     public List<CategoryDTO> getCategories(){
-        System.out.println(categoryService.findAll().stream().map(this::convertToCategoryDTO)
-                .collect(Collectors.toList()));
         return categoryService.findAll().stream().map(this::convertToCategoryDTO)
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}")
+    public CategoryDTO getCategory(@PathVariable("id") int id){
+        if (categoryService.findOne(id) == null)
+            throw new NotFoundException();
+        return convertToCategoryDTO(categoryService.findOne(id));
+    }
+
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryDTO create(@RequestBody @Valid CategoryDTO categoryDTO,
                           BindingResult bindingResult) {
-        check(bindingResult);
+        checkBindingResult.check(bindingResult);
         categoryService.save(convertToCategory(categoryDTO));
         return categoryDTO;
     }
@@ -67,21 +74,6 @@ public class CategoryController {
 
     public CategoryDTO convertToCategoryDTO(Category category) {
         return modelMapper.map(category, CategoryDTO.class);
-    }
-
-    public void check(BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            StringBuilder errorMsg = new StringBuilder();
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors ){
-                errorMsg.append(error.getField()).append(" - ")
-                        .append(error.getDefaultMessage())
-                        .append(";");
-            }
-            throw new NotCreatedException(errorMsg.toString());
-        }else {
-            ResponseEntity.ok(HttpStatus.OK);
-        }
     }
 
 }
