@@ -4,15 +4,11 @@ import com.bezkoder.springjwt.dto.CategoryDTO;
 import com.bezkoder.springjwt.models.Category;
 import com.bezkoder.springjwt.security.services.CategoryService;
 import com.bezkoder.springjwt.util.CheckBindingResult;
-import com.bezkoder.springjwt.util.NotCreatedException;
 import com.bezkoder.springjwt.util.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,12 +22,13 @@ public class CategoryController {
 
     private final CategoryService categoryService;
     private final ModelMapper modelMapper;
-    private CheckBindingResult checkBindingResult;
+    private final CheckBindingResult checkBindingResult;
 
     @Autowired
-    public CategoryController(CategoryService categoryService, ModelMapper modelMapper) {
+    public CategoryController(CategoryService categoryService, ModelMapper modelMapper, CheckBindingResult checkBindingResult) {
         this.categoryService = categoryService;
         this.modelMapper = modelMapper;
+        this.checkBindingResult = checkBindingResult;
     }
 
     @GetMapping("/all")
