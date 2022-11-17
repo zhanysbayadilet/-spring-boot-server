@@ -47,16 +47,8 @@ public class TournamentController {
 
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public TournamentDTO create(@RequestBody @Valid TournamentDTO tournamentDTO,
+    public TournamentDTO save(@RequestBody @Valid TournamentDTO tournamentDTO,
                               BindingResult bindingResult) {
-        checkBindingResult.check(bindingResult);
-        tournamentService.save(convertToTournament(tournamentDTO));
-        return tournamentDTO;
-    }
-
-    @PatchMapping()
-    @PreAuthorize("hasRole('ADMIN')")
-    public TournamentDTO update(@RequestBody @Valid TournamentDTO tournamentDTO, BindingResult bindingResult) {
         checkBindingResult.check(bindingResult);
         tournamentService.save(convertToTournament(tournamentDTO));
         return tournamentDTO;

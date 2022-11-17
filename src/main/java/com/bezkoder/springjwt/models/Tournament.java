@@ -11,7 +11,7 @@ public class Tournament {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Size(max = 30)
     @Column(name = "name")
@@ -51,11 +51,11 @@ public class Tournament {
         this.tournament_img = tournament_img;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
