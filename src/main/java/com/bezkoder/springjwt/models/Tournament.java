@@ -3,7 +3,7 @@ package com.bezkoder.springjwt.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(	name = "tournament")
@@ -11,29 +11,29 @@ public class Tournament {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @NotEmpty
     @Size(max = 30)
     @Column(name = "name")
     private String name;
 
-    @NotEmpty
     @Size(max = 255)
     @Column(name = "description")
     private String description;
 
-    @NotEmpty
     @Column(name = "start_date")
-    private Timestamp start_date;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date start_date;
 
-    @NotEmpty
     @Column(name = "end_date")
-    private Timestamp end_date;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date end_date;
 
-    @NotEmpty
     @Column(name = "prize_fund")
-    private String prize_fund;
+    private int prize_fund;
+
+    @Column(name = "tournament_img")
+    private String tournament_img;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false, referencedColumnName = "id")
@@ -41,20 +41,21 @@ public class Tournament {
 
     public Tournament() {}
 
-    public Tournament(String name, String description, Timestamp start_date, Timestamp end_date, String prize_fund, Category category_id) {
+    public Tournament(String name, String description, Date start_date, Date end_date, int prize_fund, Category category_id, String tournament_img) {
         this.name = name;
         this.description = description;
         this.start_date = start_date;
         this.end_date = end_date;
         this.prize_fund = prize_fund;
         this.category_id = category_id;
+        this.tournament_img = tournament_img;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -74,27 +75,27 @@ public class Tournament {
         this.description = description;
     }
 
-    public Timestamp getStart_date() {
+    public Date getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Timestamp start_date) {
+    public void setStart_date(Date start_date) {
         this.start_date = start_date;
     }
 
-    public Timestamp getEnd_date() {
+    public Date getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Timestamp end_date) {
+    public void setEnd_date(Date end_date) {
         this.end_date = end_date;
     }
 
-    public String getPrize_fund() {
+    public int getPrize_fund() {
         return prize_fund;
     }
 
-    public void setPrize_fund(String prize_fund) {
+    public void setPrize_fund(int prize_fund) {
         this.prize_fund = prize_fund;
     }
 
@@ -104,5 +105,13 @@ public class Tournament {
 
     public void setCategory_id(Category category_id) {
         this.category_id = category_id;
+    }
+
+    public String getTournament_img() {
+        return tournament_img;
+    }
+
+    public void setTournament_img(String tournament_img) {
+        this.tournament_img = tournament_img;
     }
 }
