@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 public class TournamentDTO {
 
-    private int id;
+    private Long id;
 
     private String name;
 
