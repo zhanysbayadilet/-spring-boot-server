@@ -4,21 +4,11 @@ import com.bezkoder.springjwt.dto.CategoryDTO;
 import com.bezkoder.springjwt.dto.TournamentDTO;
 import com.bezkoder.springjwt.models.Category;
 import com.bezkoder.springjwt.models.Tournament;
-import com.bezkoder.springjwt.repository.CategoryRepository;
-import com.bezkoder.springjwt.service.impl.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertUtils {
-
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    public ConvertUtils(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public static TournamentDTO convertToTournamentDTO(Tournament tournament) {
         return new TournamentDTO().toDto(tournament);
@@ -35,6 +25,7 @@ public class ConvertUtils {
         tournament.setEnd_date(tournamentDTO.getEnd_date());
         tournament.setPrize_fund(tournamentDTO.getPrize_fund());
         tournament.setCategory(convertToCategory(tournamentDTO.getCategory()));
+        tournament.setUsers(tournamentDTO.getUsers());
         return tournament;
     }
 

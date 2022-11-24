@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(	name = "tournament")
@@ -44,4 +45,6 @@ public class Tournament {
     @JoinColumn(name = "category_id", nullable = false, referencedColumnName = "id")
     private Category category;
 
+    @ManyToMany(mappedBy = "tournaments")
+    private List<User> users;
 }

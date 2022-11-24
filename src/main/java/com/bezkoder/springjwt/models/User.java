@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -37,6 +38,14 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(
+			name = "user_tournament",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "tournament_id")
+	)
+	private List<Tournament> tournaments;
 
 	public User() {
 	}
@@ -85,5 +94,13 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public List<Tournament> getTournaments() {
+		return tournaments;
+	}
+
+	public void setTournaments(List<Tournament> tournaments) {
+		this.tournaments = tournaments;
 	}
 }
