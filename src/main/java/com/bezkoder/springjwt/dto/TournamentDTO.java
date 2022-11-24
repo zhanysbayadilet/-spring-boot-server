@@ -1,11 +1,12 @@
 package com.bezkoder.springjwt.dto;
 
-import com.bezkoder.springjwt.models.Category;
 import com.bezkoder.springjwt.models.Tournament;
+import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.util.ConvertUtils;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +23,7 @@ public class TournamentDTO {
     private int prize_fund;
     private String tournament_img;
     private CategoryDTO category;
+    private List<User> users;
 
     public TournamentDTO toDto(Tournament tournament) {
         return TournamentDTO.builder()
@@ -33,6 +35,7 @@ public class TournamentDTO {
                 .prize_fund(tournament.getPrize_fund())
                 .tournament_img(tournament.getTournament_img())
                 .category(tournament.getCategory() != null ? ConvertUtils.convertToCategoryDTO(tournament.getCategory()) : null)
+                .users(tournament.getUsers())
                 .build();
     }
 }

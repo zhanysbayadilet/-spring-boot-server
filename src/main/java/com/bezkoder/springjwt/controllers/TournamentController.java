@@ -1,6 +1,5 @@
 package com.bezkoder.springjwt.controllers;
 
-import com.bezkoder.springjwt.dto.CategoryDTO;
 import com.bezkoder.springjwt.dto.TournamentDTO;
 import com.bezkoder.springjwt.service.impl.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
