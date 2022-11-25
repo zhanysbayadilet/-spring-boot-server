@@ -1,8 +1,10 @@
 package com.bezkoder.springjwt.service;
 
 import com.bezkoder.springjwt.dto.TournamentDTO;
+import com.bezkoder.springjwt.models.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ITournamentService {
 
@@ -10,5 +12,9 @@ public interface ITournamentService {
 
     TournamentDTO saveTournament(TournamentDTO tournamentDTO);
 
-    Boolean deleteTournamentById(int id);
+    Boolean deleteTournamentById(Long id);
+
+    Set<User> getTournamentParticipants(Long id);
+
+    TournamentDTO addParticipant(Long user_id, Long tournament_id);
 }

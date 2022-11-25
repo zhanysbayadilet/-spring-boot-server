@@ -33,8 +33,20 @@ public class TournamentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTournamentById(@PathVariable int id){
+    public ResponseEntity<?> deleteTournamentById(@PathVariable Long id){
         return ResponseEntity.ok(tournamentService.deleteTournamentById(id));
+    }
+
+    //Tournament Users/Participants
+
+    @GetMapping("/{id}/participants")
+    public ResponseEntity<?> getTournamentParticipants(@PathVariable Long id) {
+        return ResponseEntity.ok(tournamentService.getTournamentParticipants(id));
+    }
+
+    @PostMapping("/{user_id}/{tournament_id}")
+    public ResponseEntity<?> addParticipant(@PathVariable Long user_id, @PathVariable Long tournament_id) {
+        return ResponseEntity.ok(tournamentService.addParticipant(user_id, tournament_id));
     }
 }
 

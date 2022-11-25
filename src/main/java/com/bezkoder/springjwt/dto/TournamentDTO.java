@@ -6,7 +6,7 @@ import com.bezkoder.springjwt.util.ConvertUtils;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 public class TournamentDTO {
 
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private Date start_date;
@@ -23,7 +23,7 @@ public class TournamentDTO {
     private int prize_fund;
     private String tournament_img;
     private CategoryDTO category;
-    private List<User> users;
+    private Set<User> users;
 
     public TournamentDTO toDto(Tournament tournament) {
         return TournamentDTO.builder()

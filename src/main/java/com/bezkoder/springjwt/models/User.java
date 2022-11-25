@@ -1,7 +1,8 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -39,13 +40,9 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@ManyToMany
-	@JoinTable(
-			name = "user_tournament",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "tournament_id")
-	)
-	private List<Tournament> tournaments;
+	@ManyToMany(mappedBy = "users")
+	@JsonBackReference
+	private Set<Tournament> tournaments;
 
 	public User() {
 	}
@@ -96,11 +93,11 @@ public class User {
 		this.roles = roles;
 	}
 
-	public List<Tournament> getTournaments() {
+	public Set<Tournament> getTournaments() {
 		return tournaments;
 	}
 
-	public void setTournaments(List<Tournament> tournaments) {
+	public void setTournaments(Set<Tournament> tournaments) {
 		this.tournaments = tournaments;
 	}
 }
