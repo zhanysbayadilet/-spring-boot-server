@@ -1,11 +1,13 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(	name = "tournament")
@@ -19,7 +21,7 @@ public class Tournament {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Size(max = 30)
     @Column(name = "name")
@@ -45,6 +47,18 @@ public class Tournament {
     @JoinColumn(name = "category_id", nullable = false, referencedColumnName = "id")
     private Category category;
 
-    @ManyToMany(mappedBy = "tournaments")
-    private List<User> users;
+    @ManyToMany
+    @JoinTable(
+            name = "user_tournament",
+            joinColumns = @JoinColumn(name = "tournament_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
+    @JsonManagedReference
+    private Set<User> users;
+
+    public void addUser(User user) {
+        if(users == null)
+            users = new HashSet<User>();
+        this.users.add(user);
+    }
 }
