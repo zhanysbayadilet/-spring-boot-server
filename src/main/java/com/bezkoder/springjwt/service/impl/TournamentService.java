@@ -43,6 +43,11 @@ public class TournamentService implements ITournamentService {
     }
 
     @Override
+    public TournamentDTO getTournamentById(Long id) {
+        return ConvertUtils.convertToTournamentDTO(tournamentRepository.findById(id).orElseThrow());
+    }
+
+    @Override
     public Set<User> getTournamentParticipants(Long id) {
         Tournament tournament = tournamentRepository.findById(id).orElse(null);
         if(tournament == null)

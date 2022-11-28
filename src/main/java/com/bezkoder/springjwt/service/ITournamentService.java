@@ -14,6 +14,8 @@ public interface ITournamentService {
 
     Boolean deleteTournamentById(Long id);
 
+    TournamentDTO getTournamentById(Long id);
+
     Set<User> getTournamentParticipants(Long id);
 
     TournamentDTO addParticipant(Long user_id, Long tournament_id);

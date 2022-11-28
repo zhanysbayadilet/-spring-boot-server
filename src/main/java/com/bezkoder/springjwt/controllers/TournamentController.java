@@ -27,6 +27,11 @@ public class TournamentController {
         return ResponseEntity.ok(tournamentService.getAllTournament());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTournamentById(@PathVariable Long id) {
+        return ResponseEntity.ok(tournamentService.getTournamentById(id));
+    }
+
     @PostMapping("/save")
     public ResponseEntity<?> saveTournament(@Valid @RequestBody TournamentDTO tournamentDTO) {
         return ResponseEntity.ok(tournamentService.saveTournament(tournamentDTO));
