@@ -69,5 +69,10 @@ public class TournamentService implements ITournamentService {
         return ConvertUtils.convertToTournamentDTO(tournamentRepository.save(tournament));
     }
 
+    @Override
+    public Integer getCountTournaments() {
+        return tournamentRepository.getCountTournaments();
+    }
+
 
 }

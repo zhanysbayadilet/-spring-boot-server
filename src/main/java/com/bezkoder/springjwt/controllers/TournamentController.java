@@ -53,5 +53,10 @@ public class TournamentController {
     public ResponseEntity<?> addParticipant(@PathVariable Long user_id, @PathVariable Long tournament_id) {
         return ResponseEntity.ok(tournamentService.addParticipant(user_id, tournament_id));
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getCountTournaments(){
+        return ResponseEntity.ok(tournamentService.getCountTournaments());
+    }
 }
 

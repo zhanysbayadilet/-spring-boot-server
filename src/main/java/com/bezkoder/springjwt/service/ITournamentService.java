@@ -19,4 +19,6 @@ public interface ITournamentService {
     Set<User> getTournamentParticipants(Long id);
 
     TournamentDTO addParticipant(Long user_id, Long tournament_id);
+
+    Integer getCountTournaments();
 }
