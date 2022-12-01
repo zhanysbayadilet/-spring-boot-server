@@ -1,6 +1,8 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.HashSet;
@@ -17,7 +19,7 @@ import javax.validation.constraints.Size;
 			@UniqueConstraint(columnNames = "username"),
 			@UniqueConstraint(columnNames = "email") 
 		})
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "username")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +45,7 @@ public class User {
 	private Set<Role> roles = new HashSet<>();
 
 	@ManyToMany(mappedBy = "users")
+	@JsonManagedReference
 	private Set<Tournament> tournaments;
 
 	public User() {

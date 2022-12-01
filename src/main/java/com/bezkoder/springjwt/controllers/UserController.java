@@ -1,6 +1,5 @@
 package com.bezkoder.springjwt.controllers;
 
-import com.bezkoder.springjwt.dto.TournamentDTO;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.security.services.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +36,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id){
         return ResponseEntity.ok(userDetailsService.deleteUserById(id));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getCountUsers(){
+        return ResponseEntity.ok(userDetailsService.getCountUsers());
     }
 }

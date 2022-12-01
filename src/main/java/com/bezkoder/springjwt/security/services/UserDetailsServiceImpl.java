@@ -22,9 +22,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return userRepository.findAll();
 	}
 
-	public User getUser(Long id) {
-		Optional<User> foundUser = userRepository.findById(id);
-		return foundUser.orElse(null);
+	public Optional<User> getUser(Long id) {
+		return userRepository.findById(id);
 	}
 
 	@Transactional
@@ -47,4 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return UserDetailsImpl.build(user);
 	}
 
+    public Integer getCountUsers() {
+		return userRepository.getCountUsers();
+    }
 }
