@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.service.impl;
 
 import com.bezkoder.springjwt.dto.TournamentDTO;
+import com.bezkoder.springjwt.dto.UserDTO;
 import com.bezkoder.springjwt.models.Tournament;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.repository.TournamentRepository;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TournamentService implements ITournamentService {
@@ -48,11 +48,11 @@ public class TournamentService implements ITournamentService {
     }
 
     @Override
-    public Set<User> getTournamentParticipants(Long id) {
-        Tournament tournament = tournamentRepository.findById(id).orElse(null);
+    public List<UserDTO> getTournamentParticipants(Long tournament_id) {
+        Tournament tournament = tournamentRepository.findById(tournament_id).orElse(null);
         if(tournament == null)
             return null;
-        return tournament.getUsers();
+        return ConvertUtils.convertUserListToDtoList(tournament.getUsers());
     }
 
     @Override

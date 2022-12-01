@@ -1,5 +1,8 @@
 package com.bezkoder.springjwt.security.services;
 
+import com.bezkoder.springjwt.dto.TournamentDTO;
+import com.bezkoder.springjwt.dto.UserDTO;
+import com.bezkoder.springjwt.util.ConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,24 +14,29 @@ import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	@Autowired
-	UserRepository userRepository;
 
-	public List<User> getAllUser() {
-		return userRepository.findAll();
+	private final UserRepository userRepository;
+
+	@Autowired
+	public UserDetailsServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 
-	public Optional<User> getUser(Long id) {
-		return userRepository.findById(id);
+	public List<UserDTO> getAllUser() {
+		return ConvertUtils.convertUserListToDtoList(userRepository.findAll());
+	}
+
+	public UserDTO getUser(Long id) {
+		return ConvertUtils.convertToUserDTO(userRepository.findById(id).orElseThrow());
 	}
 
 	@Transactional
-	public User saveUser(User user) {
-		return userRepository.save(user);
+	public UserDTO saveUser(UserDTO userDTO) {
+		User user = ConvertUtils.convertToUser(userDTO);
+		return ConvertUtils.convertToUserDTO(userRepository.save(user));
 	}
 
 	@Transactional
@@ -44,6 +52,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
 		return UserDetailsImpl.build(user);
+	}
+
+	public List<TournamentDTO> getUserTournaments(Long user_id) {
+		User user = userRepository.findById(user_id).orElse(null);
+		if(user == null)
+			return null;
+		return ConvertUtils.convertTournamentListToDtoList(user.getTournaments());
 	}
 
     public Integer getCountUsers() {

@@ -1,6 +1,7 @@
 package com.bezkoder.springjwt.service;
 
 import com.bezkoder.springjwt.dto.TournamentDTO;
+import com.bezkoder.springjwt.dto.UserDTO;
 import com.bezkoder.springjwt.models.User;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface ITournamentService {
 
     TournamentDTO getTournamentById(Long id);
 
-    Set<User> getTournamentParticipants(Long id);
+    List<UserDTO> getTournamentParticipants(Long id);
 
     TournamentDTO addParticipant(Long user_id, Long tournament_id);
 

@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.dto.UserDTO;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.security.services.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +30,20 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveUser(@Valid @RequestBody User user) {
-        return ResponseEntity.ok(userDetailsService.saveUser(user));
+    public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userDetailsService.saveUser(userDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id){
         return ResponseEntity.ok(userDetailsService.deleteUserById(id));
+    }
+
+    // Tournaments of this User
+
+    @GetMapping("/{user_id}/tournaments")
+    public ResponseEntity<?> getUserTournaments(@PathVariable Long user_id) {
+        return ResponseEntity.ok(userDetailsService.getUserTournaments(user_id));
     }
 
     @GetMapping("/count")
