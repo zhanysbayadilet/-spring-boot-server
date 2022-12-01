@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -45,8 +46,10 @@ public class User {
 	private Set<Role> roles = new HashSet<>();
 
 	@ManyToMany(mappedBy = "users")
-	@JsonManagedReference
-	private Set<Tournament> tournaments;
+	private List<Tournament> tournaments;
+
+	@OneToMany(mappedBy = "organizer")
+	private Set<Tournament> myTournaments;
 
 	public User() {
 	}
@@ -97,11 +100,19 @@ public class User {
 		this.roles = roles;
 	}
 
-	public Set<Tournament> getTournaments() {
+	public List<Tournament> getTournaments() {
 		return tournaments;
 	}
 
-	public void setTournaments(Set<Tournament> tournaments) {
+	public void setTournaments(List<Tournament> tournaments) {
 		this.tournaments = tournaments;
+	}
+
+	public Set<Tournament> getMyTournaments() {
+		return myTournaments;
+	}
+
+	public void setMyTournaments(Set<Tournament> myTournaments) {
+		this.myTournaments = myTournaments;
 	}
 }

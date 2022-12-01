@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.controllers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,20 +37,25 @@ import com.bezkoder.springjwt.security.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-	@Autowired
-	AuthenticationManager authenticationManager;
+
+	private final AuthenticationManager authenticationManager;
+
+	private final UserRepository userRepository;
+
+	private final RoleRepository roleRepository;
+
+	private final PasswordEncoder encoder;
+
+	private final JwtUtils jwtUtils;
 
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	RoleRepository roleRepository;
-
-	@Autowired
-	PasswordEncoder encoder;
-
-	@Autowired
-	JwtUtils jwtUtils;
+	public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.encoder = encoder;
+		this.jwtUtils = jwtUtils;
+	}
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -122,6 +128,7 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+		user.setTournaments(new ArrayList<>());
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

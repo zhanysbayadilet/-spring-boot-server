@@ -2,8 +2,10 @@ package com.bezkoder.springjwt.util;
 
 import com.bezkoder.springjwt.dto.CategoryDTO;
 import com.bezkoder.springjwt.dto.TournamentDTO;
+import com.bezkoder.springjwt.dto.UserDTO;
 import com.bezkoder.springjwt.models.Category;
 import com.bezkoder.springjwt.models.Tournament;
+import com.bezkoder.springjwt.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class ConvertUtils {
         tournament.setEnd_date(tournamentDTO.getEnd_date());
         tournament.setPrize_fund(tournamentDTO.getPrize_fund());
         tournament.setCategory(convertToCategory(tournamentDTO.getCategory()));
-        tournament.setUsers(tournamentDTO.getUsers());
+        tournament.setOrganizer(convertToUser(tournamentDTO.getOrganizer()));
         return tournament;
     }
 
@@ -42,6 +44,20 @@ public class ConvertUtils {
         return category;
     }
 
+    public static UserDTO convertToUserDTO(User user) {
+        return new UserDTO().toDto(user);
+    }
+
+    public static User convertToUser(UserDTO userDTO) {
+        User user = new User();
+        user.setId(userDTO.getId());
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setRoles(userDTO.getRoles());
+        return user;
+    }
+
     public static List<CategoryDTO> convertCategoryListToDtoList(List<Category> categories) {
         ArrayList<CategoryDTO> categoryDTOArrayList = new ArrayList<>();
         for (Category category : categories) {
@@ -56,5 +72,29 @@ public class ConvertUtils {
             tournamentDTOArrayList.add(convertToTournamentDTO(tournament));
         }
         return tournamentDTOArrayList;
+    }
+
+    public static List<Tournament> convertDtoListToTournamentList(List<TournamentDTO> tournamentsDTO) {
+        ArrayList<Tournament> tournamentArrayList = new ArrayList<>();
+        for (TournamentDTO tournamentDTO : tournamentsDTO) {
+            tournamentArrayList.add(convertToTournament(tournamentDTO));
+        }
+        return tournamentArrayList;
+    }
+
+    public static List<UserDTO> convertUserListToDtoList(List<User> users) {
+        ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
+        for (User user : users) {
+            userDTOArrayList.add(convertToUserDTO(user));
+        }
+        return userDTOArrayList;
+    }
+
+    public static List<User> convertDtoListToUserList(List<UserDTO> usersDTO) {
+        ArrayList<User> userArrayList = new ArrayList<>();
+        for (UserDTO userDTO : usersDTO) {
+            userArrayList.add(convertToUser(userDTO));
+        }
+        return userArrayList;
     }
 }

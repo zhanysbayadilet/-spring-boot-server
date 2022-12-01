@@ -42,11 +42,11 @@ public class TournamentController {
         return ResponseEntity.ok(tournamentService.deleteTournamentById(id));
     }
 
-    //Tournament Users/Participants
+    //Tournament Participants
 
-    @GetMapping("/{id}/participants")
-    public ResponseEntity<?> getTournamentParticipants(@PathVariable Long id) {
-        return ResponseEntity.ok(tournamentService.getTournamentParticipants(id));
+    @GetMapping("/{tournament_id}/participants")
+    public ResponseEntity<?> getTournamentParticipants(@PathVariable Long tournament_id) {
+        return ResponseEntity.ok(tournamentService.getTournamentParticipants(tournament_id));
     }
 
     @PostMapping("/{user_id}/{tournament_id}")

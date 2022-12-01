@@ -5,9 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(	name = "tournament")
@@ -54,12 +52,15 @@ public class Tournament {
             joinColumns = @JoinColumn(name = "tournament_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
     )
-    @JsonBackReference
-    private Set<User> users;
+    private List<User> users;
+
+    @ManyToOne
+    @JoinColumn(name = "organizer_id", referencedColumnName = "id")
+    private User organizer;
 
     public void addUser(User user) {
         if(users == null)
-            users = new HashSet<User>();
+            users = new ArrayList<>();
         this.users.add(user);
     }
 }
