@@ -46,6 +46,11 @@ public class UserController {
         return ResponseEntity.ok(userDetailsService.getUserTournaments(user_id));
     }
 
+    @GetMapping("/{user_id}/myTournaments")
+    public ResponseEntity<?> getMyTournaments(@PathVariable Long user_id) {
+        return ResponseEntity.ok(userDetailsService.getMyTournaments(user_id));
+    }
+
     @GetMapping("/count")
     public ResponseEntity<Integer> getCountUsers(){
         return ResponseEntity.ok(userDetailsService.getCountUsers());
