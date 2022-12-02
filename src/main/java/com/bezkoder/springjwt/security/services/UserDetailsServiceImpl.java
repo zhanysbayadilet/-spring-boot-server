@@ -61,6 +61,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return ConvertUtils.convertTournamentListToDtoList(user.getTournaments());
 	}
 
+	public List<TournamentDTO> getMyTournaments(Long user_id) {
+		User user = userRepository.findById(user_id).orElse(null);
+		if(user == null)
+			return null;
+		return ConvertUtils.convertTournamentListToDtoList(user.getMyTournaments());
+	}
+
     public Integer getCountUsers() {
 		return userRepository.getCountUsers();
     }

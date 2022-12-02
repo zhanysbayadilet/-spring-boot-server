@@ -49,7 +49,7 @@ public class User {
 	private List<Tournament> tournaments;
 
 	@OneToMany(mappedBy = "organizer")
-	private Set<Tournament> myTournaments;
+	private List<Tournament> myTournaments;
 
 	public User() {
 	}
@@ -108,11 +108,11 @@ public class User {
 		this.tournaments = tournaments;
 	}
 
-	public Set<Tournament> getMyTournaments() {
+	public List<Tournament> getMyTournaments() {
 		return myTournaments;
 	}
 
-	public void setMyTournaments(Set<Tournament> myTournaments) {
+	public void setMyTournaments(List<Tournament> myTournaments) {
 		this.myTournaments = myTournaments;
 	}
 }
