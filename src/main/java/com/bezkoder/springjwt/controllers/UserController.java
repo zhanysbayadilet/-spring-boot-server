@@ -3,6 +3,7 @@ package com.bezkoder.springjwt.controllers;
 import com.bezkoder.springjwt.dto.UserDTO;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.security.services.UserDetailsServiceImpl;
+import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
+@Api( tags = "all")
 public class UserController {
 
     private final UserDetailsServiceImpl userDetailsService;
