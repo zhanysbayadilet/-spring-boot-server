@@ -55,6 +55,7 @@ public class ConvertUtils {
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
         user.setRoles(userDTO.getRoles());
+        user.setUserImages(userDTO.getUserImages());
         return user;
     }
 
