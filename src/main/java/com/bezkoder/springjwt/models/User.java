@@ -1,10 +1,5 @@
 package com.bezkoder.springjwt.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +15,6 @@ import javax.validation.constraints.Size;
 			@UniqueConstraint(columnNames = "username"),
 			@UniqueConstraint(columnNames = "email") 
 		})
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "username")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +44,17 @@ public class User {
 
 	@OneToMany(mappedBy = "organizer")
 	private List<Tournament> myTournaments;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_images",
+			joinColumns = {
+				@JoinColumn(name = "user_id"),
+			},
+			inverseJoinColumns = {
+				@JoinColumn(name = "image_id")
+			}
+	)
+	private Set<ImageModel> userImages;
 
 	public User() {
 	}
@@ -114,5 +119,13 @@ public class User {
 
 	public void setMyTournaments(List<Tournament> myTournaments) {
 		this.myTournaments = myTournaments;
+	}
+
+	public Set<ImageModel> getUserImages() {
+		return userImages;
+	}
+
+	public void setUserImages(Set<ImageModel> userImages) {
+		this.userImages = userImages;
 	}
 }

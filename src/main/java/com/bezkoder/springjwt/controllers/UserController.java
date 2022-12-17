@@ -1,13 +1,17 @@
 package com.bezkoder.springjwt.controllers;
 
 import com.bezkoder.springjwt.dto.UserDTO;
-import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.models.ImageModel;
 import com.bezkoder.springjwt.security.services.UserDetailsServiceImpl;
 import io.swagger.annotations.Api;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -31,9 +35,31 @@ public class UserController {
         return ResponseEntity.ok(userDetailsService.getUser(id));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userDetailsService.saveUser(userDTO));
+    @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public UserDTO saveUser(@RequestPart("user") UserDTO userDTO,
+                         @RequestPart("imageFile") MultipartFile[] file) {
+        try{
+            Set<ImageModel> images = uploadImage(file);
+            userDTO.setUserImages(images);
+            return userDetailsService.saveUser(userDTO);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public Set<ImageModel> uploadImage(MultipartFile[] multipartFiles) throws IOException {
+        Set<ImageModel> imageModels = new HashSet<>();
+
+        for (MultipartFile file: multipartFiles) {
+            ImageModel imageModel = new ImageModel(
+                    file.getOriginalFilename(),
+                    file.getContentType(),
+                    file.getBytes()
+            );
+            imageModels.add(imageModel);
+        }
+        return imageModels;
     }
 
     @DeleteMapping("/{id}")

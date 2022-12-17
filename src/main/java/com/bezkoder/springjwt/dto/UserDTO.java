@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.dto;
 
+import com.bezkoder.springjwt.models.ImageModel;
 import com.bezkoder.springjwt.models.Role;
 import com.bezkoder.springjwt.models.User;
 import lombok.*;
@@ -18,6 +19,7 @@ public class UserDTO {
     private String email;
     private String password;
     private Set<Role> roles;
+    private Set<ImageModel> userImages;
 
     public UserDTO toDto(User user) {
         return UserDTO.builder()
@@ -26,6 +28,7 @@ public class UserDTO {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .roles(user.getRoles())
+                .userImages(user.getUserImages())
                 .build();
     }
 }
