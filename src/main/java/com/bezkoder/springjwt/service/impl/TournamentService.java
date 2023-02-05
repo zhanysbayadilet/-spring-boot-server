@@ -11,6 +11,7 @@ import com.bezkoder.springjwt.util.ConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class TournamentService implements ITournamentService {
     @Override
     public TournamentDTO saveTournament(TournamentDTO tournamentDTO) {
         Tournament tournament = ConvertUtils.convertToTournament(tournamentDTO);
+        tournament.setCreatedAt(new Date());
         return ConvertUtils.convertToTournamentDTO(tournamentRepository.save(tournament));
     }
 

@@ -42,6 +42,9 @@ public class Tournament {
     @Column(name = "tournament_img")
     private String tournament_img;
 
+    @Column(name = "created_at")
+    private Date createdAt;
+
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false, referencedColumnName = "id")
     private Category category;

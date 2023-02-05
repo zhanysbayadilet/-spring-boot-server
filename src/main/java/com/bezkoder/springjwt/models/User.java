@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.models;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,9 @@ public class User {
 	@NotBlank
 	@Size(max = 120)
 	private String password;
+
+	@Column(name = "created_at")
+	private Date createdAt;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
@@ -95,6 +99,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public Set<Role> getRoles() {

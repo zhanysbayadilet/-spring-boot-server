@@ -1,9 +1,6 @@
 package com.bezkoder.springjwt.controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -129,6 +126,7 @@ public class AuthController {
 
 		user.setRoles(roles);
 		user.setTournaments(new ArrayList<>());
+		user.setCreatedAt(new Date());
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
