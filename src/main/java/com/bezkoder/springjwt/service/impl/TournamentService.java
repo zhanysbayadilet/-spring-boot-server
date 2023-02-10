@@ -34,7 +34,6 @@ public class TournamentService implements ITournamentService {
     @Override
     public TournamentDTO saveTournament(TournamentDTO tournamentDTO) {
         Tournament tournament = ConvertUtils.convertToTournament(tournamentDTO);
-        tournament.setCreatedAt(new Date());
         return ConvertUtils.convertToTournamentDTO(tournamentRepository.save(tournament));
     }
 

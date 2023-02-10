@@ -126,7 +126,6 @@ public class AuthController {
 
 		user.setRoles(roles);
 		user.setTournaments(new ArrayList<>());
-		user.setCreatedAt(new Date());
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
