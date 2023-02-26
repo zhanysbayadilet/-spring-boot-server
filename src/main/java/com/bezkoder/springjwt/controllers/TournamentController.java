@@ -1,16 +1,19 @@
 package com.bezkoder.springjwt.controllers;
 
 import com.bezkoder.springjwt.dto.TournamentDTO;
+import com.bezkoder.springjwt.models.UserTournament;
 import com.bezkoder.springjwt.service.impl.TournamentService;
+import com.bezkoder.springjwt.util.PageableCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/tournament")
 public class TournamentController {
@@ -23,8 +26,8 @@ public class TournamentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllTournament() {
-        return ResponseEntity.ok(tournamentService.getAllTournament());
+    public ResponseEntity<PageableCustom> getAllTournament(@RequestParam Map<String, String> params) {
+        return ResponseEntity.ok(tournamentService.getAllTournament(params));
     }
 
     @GetMapping("/{id}")
@@ -57,6 +60,17 @@ public class TournamentController {
     @GetMapping("/count")
     public ResponseEntity<Integer> getCountTournaments(){
         return ResponseEntity.ok(tournamentService.getCountTournaments());
+    }
+
+    @GetMapping("/userId/{userId}/tournamentId/{tournamentId}")
+    public ResponseEntity<UserTournament> checkStatusSubscribe(@PathVariable Long userId,
+                                                               @PathVariable Long tournamentId){
+        return ResponseEntity.ok(tournamentService.checkStatusSubscribe(userId, tournamentId));
+    }
+
+    @DeleteMapping("/userId/{userId}/tournamentId/{tournamentId}/unsubscribe")
+    public ResponseEntity<Integer> unsubscribeToTournament(@PathVariable Long userId, @PathVariable Long tournamentId){
+        return ResponseEntity.ok(tournamentService.unsubscribeToTournament(userId, tournamentId));
     }
 }
 
